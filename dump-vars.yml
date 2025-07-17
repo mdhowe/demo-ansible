@@ -1,0 +1,7 @@
+---
+- name: Dump all vars
+  hosts: all
+  tasks:
+    - name: Hostvars
+      ansible.builtin.debug:
+        msg: "{{ hostvars[inventory_hostname] | to_yaml }}"

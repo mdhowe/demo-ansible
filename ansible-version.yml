@@ -1,0 +1,14 @@
+---
+- name: Display ansible version
+  hosts: all
+  tasks:
+    - name: Print ansible version from variable
+      ansible.builtin.debug:
+        msg: "{{ ansible_version.string }}"
+    - name: Get ansible version
+      ansible.builtin.command:
+        cmd: 'ansible --version'
+      register: ansible_ver
+    - name: Print ansible version from variable
+      ansible.builtin.debug:
+        msg: "{{ ansible_ver.stdout }}"
