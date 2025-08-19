@@ -1,0 +1,26 @@
+---
+- name: Test of get_url
+  hosts: all
+  tasks:
+    - name: Create temporary file
+      ansible.builtin.tempfile:
+        state: file
+      register: tempfile_1
+    - name: Get demo URL
+      ansible.builtin.get_url:
+        url: 'https://icanhazip.com/'
+        dest: "{{ tempfile_1.path }}"
+    - name: Read content of download
+      ansible.builtin.slurp:
+        path: "{{ tempfile_1.path }}"
+      register: download_content
+    - name: Print content
+      ansible.builtin.debug:
+        msg:
+          - "Content: {{ download_content.content | b64decode }}"
+          - "Primary IPv4: {{ ansible_all_ipv4_addresses[0] }}"
+    - name: Tidy up temporary file
+      ansible.builtin.file:
+        path: "{{ tempfile_1.path }}"
+        state: absent
+      when: tempfile_1.path is defined
