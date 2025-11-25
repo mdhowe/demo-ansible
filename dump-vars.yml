@@ -5,3 +5,8 @@
     - name: Hostvars
       ansible.builtin.debug:
         msg: "{{ hostvars[inventory_hostname] | to_yaml }}"
+      changed_when: true
+    - name: Facts
+      ansible.builtin.debug:
+        msg: "{{ ansible_facts | to_yaml }}"
+      changed_when: true
